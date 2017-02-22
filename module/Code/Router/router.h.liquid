@@ -1,0 +1,13 @@
+{% include 'header' %}
+
+#import "{{ prefix }}{{ module_info.name }}RouterInput.h"
+
+@protocol CCTransitionHandler;
+@protocol CCModuleFactory;
+
+@interface {{ prefix }}{{ module_info.name }}Router : NSObject <{{ prefix }}{{ module_info.name }}RouterInput>
+
+@property (nonatomic, weak) id<CCTransitionHandler> transitionHandler;
+@property (nonatomic, strong) id<CCModuleFactory> moduleFactory;
+
+@end

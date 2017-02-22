@@ -1,0 +1,13 @@
+{% include 'header' %}
+
+#import <Foundation/Foundation.h>
+#import "CCGeneralModuleInput.h"
+
+@protocol {{ prefix }}{{ module_info.name }}ModuleInput <CCGeneralModuleInput>
+
+/**
+ * This method does initial module configuration.
+ */
+- (void)configureModule;
+
+@end

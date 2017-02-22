@@ -1,0 +1,40 @@
+{% include 'header' %}
+
+#import "{{ prefix }}{{ module_info.name }}Mapping.h"
+#import "{{ custom_parameters.class_name }}.h"
+#import "NSObject+TyphoonDefaultFactory.h"
+#import "{{ prefix }}RestClient.h"
+#import "CCRestClientRegistry.h"
+
+@implementation {{ prefix }}{{ module_info.name }}Mapping
+
+REGISTER_MAPPING
+
++ (void)registerWithRestClient:(CCRestClient *)restClient
+{
+    [restClient registerObjectMapper:[{{ prefix }}{{ module_info.name }}Mapping newUsingTyphoon] forTag:@"{{ custom_parameters.mapping_tag }}"];
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Request
+//-------------------------------------------------------------------------------------------
+
+- (NSDictionary *)requestObjectFromObject:({{ custom_parameters.class_name }} *)object error:(NSError **)error
+{
+    NSMutableDictionary *requestDict = [NSMutableDictionary new];
+{{ properties_composing }}
+    return requestDict;
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Response
+//-------------------------------------------------------------------------------------------
+
+- ({{custom_parameters.class_name }} *)objectFromResponseObject:(NSDictionary *)responseObject error:(NSError **)error
+{
+    {{ custom_parameters.class_name }} *instance = [{{ custom_parameters.class_name }} new];
+{{ properties_parsing }}
+    return instance;
+}
+
+@end

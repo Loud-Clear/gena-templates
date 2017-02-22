@@ -1,0 +1,71 @@
+{% include 'header' %}
+
+#import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
+
+#import "{{ prefix }}{{ module_info.name }}ViewController.h"
+
+#import "{{ prefix }}{{ module_info.name }}ViewOutput.h"
+
+@interface {{ prefix }}{{ module_info.name }}ViewControllerTests : XCTestCase
+
+@property (nonatomic, strong) {{ prefix }}{{ module_info.name }}ViewController *controller;
+
+@property (nonatomic, strong) id mockOutput;
+@property (nonatomic, strong) id mockNotifications;
+@property (nonatomic, strong) id mockLoader;
+
+@end
+
+@implementation {{ prefix }}{{ module_info.name }}ViewControllerTests
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Setup
+//-------------------------------------------------------------------------------------------
+
+- (void)setUp 
+{
+    [super setUp];
+
+    self.controller = [[{{ prefix }}{{ module_info.name }}ViewController alloc] init];
+
+    self.mockOutput = OCMProtocolMock(@protocol({{ prefix }}{{ module_info.name }}ViewOutput));
+	
+    self.controller.output = self.mockOutput;
+}
+
+- (void)tearDown 
+{
+    self.controller = nil;
+
+    self.mockOutput = nil;
+
+    [super tearDown];
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Test Lifecycle
+//-------------------------------------------------------------------------------------------
+
+- (void)test_that_controller_notifies_presenter_on_didLoad 
+{
+	// given
+
+	// when
+	[self.controller viewDidLoad];
+
+	// then
+	OCMVerify([self.mockOutput didTriggerViewReadyEvent]);
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Test interface methods
+//-------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Test {{ prefix }}{{ module_info.name }}ViewInput methods
+//-------------------------------------------------------------------------------------------
+
+
+
+@end

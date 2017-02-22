@@ -1,0 +1,14 @@
+{% include 'header' %}
+
+#import <Typhoon/Typhoon.h>
+
+@protocol CCModule;
+
+/**
+ * {{ module_info.description }}
+ */
+@interface {{ prefix }}{{ module_info.name }}Assembly : TyphoonAssembly
+
+- (id<CCModule>)module{{ module_info.name }};
+
+@end

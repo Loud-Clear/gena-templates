@@ -1,0 +1,98 @@
+{% include 'header' %}
+
+#import <Typhoon/Typhoon.h>
+#import "CCAssemblyTests.h"
+
+#import "{{ prefix }}{{ module_info.name }}Assembly.h"
+#import "{{ prefix }}{{ module_info.name }}Assembly_Testable.h"
+
+#import "{{ prefix }}{{ module_info.name }}ViewController.h"
+#import "{{ prefix }}{{ module_info.name }}Presenter.h"
+#import "{{ prefix }}{{ module_info.name }}Interactor.h"
+#import "{{ prefix }}{{ module_info.name }}Router.h"
+
+@interface {{ prefix }}{{ module_info.name }}AssemblyTests : CCAssemblyTests
+
+@property (nonatomic, strong) {{ prefix }}{{ module_info.name }}Assembly *assembly;
+
+@end
+
+@implementation {{ prefix }}{{ module_info.name }}AssemblyTests
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Setup
+//-------------------------------------------------------------------------------------------
+
+- (void)setUp
+{
+    [super setUp];
+
+    self.assembly = [self activatedAssemblyForClass:[{{ prefix }}{{ module_info.name }}Assembly class]];
+}
+
+- (void)tearDown
+{
+    self.assembly = nil;
+    [super tearDown];
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Elements creation
+//-------------------------------------------------------------------------------------------
+
+- (void)test_that_assembly_creates_viewController 
+{
+    id instance = [self.assembly view{{ module_info.name }}Module];
+
+    XCTAssertKindOfClass(instance, {{ prefix }}{{ module_info.name }}ViewController);
+    XCTAssertConformsToProtocol(instance, @protocol({{ prefix }}{{ module_info.name }}ViewInput));
+
+    XCTAssertDependencyWithType(instance, output, @protocol({{ prefix }}{{ module_info.name }}ViewOutput));
+}
+
+- (void)test_that_assembly_creates_presenter 
+{
+    id instance = [self.assembly presenter{{ module_info.name }}Module];
+
+    XCTAssertKindOfClass(instance, {{ prefix }}{{ module_info.name }}Presenter);
+    XCTAssertConformsToAllProtocols(instance,
+            @protocol({{ prefix }}{{ module_info.name }}ModuleInput),
+            @protocol({{ prefix }}{{ module_info.name }}ViewOutput),
+            @protocol({{ prefix }}{{ module_info.name }}InteractorOutput), nil);
+
+    XCTAssertDependencyWithType(instance, view, @protocol({{ prefix }}{{ module_info.name }}ViewInput));
+    XCTAssertDependencyWithType(instance, interactor, @protocol({{ prefix }}{{ module_info.name }}InteractorInput));
+    XCTAssertDependencyWithType(instance, router, @protocol({{ prefix }}{{ module_info.name }}RouterInput));
+}
+
+- (void)test_that_assembly_creates_interactor 
+{
+    id instance = [self.assembly interactor{{ module_info.name }}Module];
+
+    XCTAssertKindOfClass(instance, {{ prefix }}{{ module_info.name }}Interactor);
+    XCTAssertConformsToProtocol(instance, @protocol({{ prefix }}{{ module_info.name }}InteractorInput));
+
+    XCTAssertDependencyWithType(instance, output, @protocol({{ prefix }}{{ module_info.name }}InteractorOutput));
+}
+
+- (void)test_that_assembly_creates_router 
+{
+    id instance = [self.assembly router{{ module_info.name }}Module];
+
+    XCTAssertKindOfClass(instance, {{ prefix }}{{ module_info.name }}Router);
+    XCTAssertConformsToProtocol(instance, @protocol({{ prefix }}{{ module_info.name }}RouterInput));
+
+    XCTAssertDependencyWithType(instance, transitionHandler, @protocol(CCTransitionHandler));
+    XCTAssertDependencyWithType(instance, moduleFactory, @protocol(CCModuleFactory));
+}
+
+- (void)test_module_shorthand
+{
+    id<CCModule> module = [self.assembly module{{ module_info.name }}];
+
+    XCTAssertDependency(module, moduleInput);
+    XCTAssertDependencyWithType(module, asViewController, [UIViewController class]);
+    XCTAssertDependencyWithType(module, asView, [UIView class]);
+}
+
+@end

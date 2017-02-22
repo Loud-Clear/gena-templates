@@ -1,0 +1,16 @@
+{% include 'header' %}
+
+#import <Foundation/Foundation.h>
+#import "CCGeneralViewInput.h"
+#import "CCGeneralViewOutput.h"
+
+@protocol {{ prefix }}{{ module_info.name }}ViewInput <CCGeneralViewInput>
+
+
+@end
+
+@protocol {{ prefix }}{{ module_info.name }}ViewOutput <CCGeneralViewOutput>
+
+
+@end
+

@@ -1,0 +1,48 @@
+{% include 'header' %}
+
+#import "{{ prefix }}RequestTo{{ module_info.name }}.h"
+
+
+@implementation {{ prefix }}RequestTo{{ module_info.name }}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Required Methods
+//-------------------------------------------------------------------------------------------
+
+- (NSString *)path
+{
+    return @"<#path#>";
+}
+
+- (TRCRequestMethod)method
+{
+    return TRCRequestMethod{{ custom_parameters.http_method}};
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Request Methods
+//-------------------------------------------------------------------------------------------
+{% if custom_parameters.include_request_path %}
+- (NSDictionary *)pathParameters
+{
+    return @{ };
+}{% endif %}
+{% if custom_parameters.include_request_body %}
+- (id)requestBody
+{
+    return @{
+
+    };
+}{% endif %}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Response Methods
+//-------------------------------------------------------------------------------------------
+
+//- (id)responseProcessedFromBody:(NSDictionary *)bodyDict headers:(NSDictionary *)responseHeaders
+//                          status:(TRCHttpStatusCode)statusCode error:(NSError **)parseError
+//{
+//    return bodyDict;
+//}
+
+@end

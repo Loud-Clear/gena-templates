@@ -1,0 +1,49 @@
+{% include 'header' %}
+
+#import "{{ prefix }}{{ module_info.name }}TealiumClient.h"
+
+#import "{{ prefix }}{{ module_info.name }}ViewController.h"
+#import "{{ prefix }}{{ module_info.name }}Presenter.h"
+
+@implementation {{ prefix }}{{ module_info.name }}TealiumClient
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - <{{ prefix }}TealiumDataSource>
+//-------------------------------------------------------------------------------------------
+
+- (Class)targetViewController
+{
+    return [{{ prefix }}{{ module_info.name }}ViewController class];
+}
+
+- (Class)targetPresenter
+{
+    return [{{ prefix }}{{ module_info.name }}Presenter class];
+}
+
+- (void)registerLoggers
+{
+    [self trackViewOnLoad];
+}
+
+- (NSString *)page_name
+{
+    return @"<#page name#>";
+}
+
+- (NSString *)page_section
+{
+    return @"<#section#>";
+}
+
+- (NSString *)page_type
+{
+    return @"<#type#>";
+}
+
+- (NSString *)page_restrictions
+{
+    return @"<#restrictions#>";
+}
+
+@end

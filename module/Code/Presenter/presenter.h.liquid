@@ -1,0 +1,16 @@
+{% include 'header' %}
+
+#import "CCGeneralPresenter.h"
+#import "{{ prefix }}{{ custom_parameters.view }}ViewInputOutput.h"
+#import "{{ prefix }}{{ custom_parameters.interactor }}InteractorInputOutput.h"
+#import "{{ prefix }}{{ module_info.name }}ModuleInput.h"
+
+@protocol {{ prefix }}{{ module_info.name }}RouterInput;
+
+@interface {{ prefix }}{{ module_info.name }}Presenter : CCGeneralPresenter <{{ prefix }}{{ module_info.name }}ModuleInput, {{ prefix }}{{ custom_parameters.view }}ViewOutput, {{ prefix }}{{ custom_parameters.interactor }}InteractorOutput>
+
+@property (nonatomic, weak) id<{{ prefix }}{{ custom_parameters.view }}ViewInput> view;
+@property (nonatomic, strong) id<{{ prefix }}{{ custom_parameters.interactor }}InteractorInput> interactor;
+@property (nonatomic, strong) id<{{ prefix }}{{ module_info.name }}RouterInput> router;
+
+@end

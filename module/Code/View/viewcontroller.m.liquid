@@ -1,0 +1,28 @@
+{% include 'header' %}
+
+#import "{{ prefix }}{{ module_info.name }}ViewController.h"
+#import "UIViewController+StatusUI.h"
+
+@implementation {{ prefix }}{{ module_info.name }}ViewController
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Lifecycle events
+//-------------------------------------------------------------------------------------------
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self.output didTriggerViewReadyEvent];
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - {{ prefix }}{{ module_info.name }}ViewInput Methods
+//-------------------------------------------------------------------------------------------
+
+- (void)setupInitialState
+{
+    // This method setups view initial state, adds subviews, animations, gesture recognizers
+    // and other things which depends on view existence
+}
+
+@end

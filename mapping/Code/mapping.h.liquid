@@ -1,0 +1,13 @@
+{% include 'header' %}
+
+#import "CCMapping.h"
+#import "{{ custom_parameters.class_name }}.h"
+
+@interface {{ prefix }}{{ module_info.name }}Mapping : CCMapping <TRCObjectMapper>
+
+- (NSDictionary *)requestObjectFromObject:({{ custom_parameters.class_name }} *)object error:(NSError **)error;
+
+- ({{ custom_parameters.class_name }} *)objectFromResponseObject:(NSDictionary *)responseObject error:(NSError **)error;
+
+
+@end

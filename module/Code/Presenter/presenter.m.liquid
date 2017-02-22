@@ -1,0 +1,38 @@
+{% include 'header' %}
+
+#import "{{ prefix }}{{ module_info.name }}Presenter.h"
+
+#import "{{ prefix }}{{ module_info.name }}RouterInput.h"
+
+@implementation {{ prefix }}{{ module_info.name }}Presenter
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - {{ prefix }}{{ module_info.name }}ModuleInput Methods
+//-------------------------------------------------------------------------------------------
+
+- (void)configureModule
+{
+    // Initial module configuration should not depend on view state
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - Setup
+//-------------------------------------------------------------------------------------------
+
+- (void)setupModule
+{
+    [super setupModule];
+
+    // Populate initial data to your view here..
+    [self.view setupInitialState];
+}
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - {{ prefix }}{{ module_info.name }}ViewOutput Methods
+//-------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------
+#pragma mark - {{ prefix }}{{ module_info.name }}InteractorOutput Methods
+//-------------------------------------------------------------------------------------------
+
+@end
