@@ -1,0 +1,12 @@
+{% include 'header' %}
+
+#import "CCTableViewCell.h"
+
+@class {{ prefix }}{{ module_info.name }}CellItem;
+
+
+@interface {{ prefix }}{{ module_info.name }}Cell : CCTableViewCell
+
+@property (nonatomic) {{ prefix }}{{ module_info.name }}CellItem *item;
+
+@end
