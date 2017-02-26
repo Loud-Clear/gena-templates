@@ -4,8 +4,8 @@
 #import "{{ custom_parameters.class_name }}.h"
 
 @interface {{ prefix }}{{ module_info.name }}Mapping : CCMapping <TRCObjectMapper>
-
-- (NSDictionary *)requestObjectFromObject:({{ custom_parameters.class_name }} *)object error:(NSError **)error;
+{% if custom_parameters.include_request %}
+- (NSDictionary *)requestObjectFromObject:({{ custom_parameters.class_name }} *)object error:(NSError **)error;{% endif %}
 
 - ({{ custom_parameters.class_name }} *)objectFromResponseObject:(NSDictionary *)responseObject error:(NSError **)error;
 

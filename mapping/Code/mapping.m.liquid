@@ -13,7 +13,7 @@ REGISTER_MAPPING
 + (void)registerWithRestClient:(CCRestClient *)restClient
 {
     [restClient registerObjectMapper:[{{ prefix }}{{ module_info.name }}Mapping newUsingTyphoon] forTag:@"{{ custom_parameters.mapping_tag }}"];
-}
+}{% if custom_parameters.include_request %}
 
 //-------------------------------------------------------------------------------------------
 #pragma mark - Request
@@ -24,7 +24,7 @@ REGISTER_MAPPING
     NSMutableDictionary *requestDict = [NSMutableDictionary new];
 {{ properties_composing }}
     return requestDict;
-}
+}{% endif %}
 
 //-------------------------------------------------------------------------------------------
 #pragma mark - Response

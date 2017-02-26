@@ -14,6 +14,7 @@ module Generate
 
     def self.register_options(opts, options)
       opts.on('--model [ClassName]', String, 'mapping | Specify model class name') { |f| options[:model_class_name] = f }
+      opts.on('--with-request', 'mapping | Adds stub for request composing, not only response parsing') { |f| options[:include_request] = true}
 
     end
 
@@ -29,20 +30,9 @@ module Generate
       "#{self.type_config['path']}/#{options[:scope]}"
     end
 
-    def http_method
-      return options[:method] unless options[:method].nil?
-      downcase_name = options[:name].downcase
-      return :POST if downcase_name.include_one_of? ['post', 'create']
-      return :GET if downcase_name.include_one_of? ['get', 'read']
-      return :PUT if downcase_name.include_one_of? ['put', 'update']
-      return :DELETE if downcase_name.include_one_of? ['delete', 'remove']
-      return :GET
-    end
-
     def class_name
-      options[:model_class_name] || "#{config['prefix']}#{options[:name].downcase.capitalize_first}"
+      options[:model_class_name] || "#{config['prefix']}#{options[:name]}"
     end
-
 
     def path_to_class_header
       sources_dir = self.config['sources_dir']
@@ -70,11 +60,15 @@ module Generate
       end
       return properties
     end
+    
+    def include_request?
+        options[:include_request] || false
+    end
 
 
     def template_source_files
       prefix = config['prefix']
-      name = options[:name].downcase.capitalize_first
+      name = options[:name]
 
       file_name = "#{prefix}#{name}Mapping"
 
@@ -89,12 +83,14 @@ module Generate
           'path' => 'Code/mapping.m.liquid',
           'custom_name' => "#{file_name}.m"
       }
-      files << {
-          'name' => 'Mapping.request.json',
-          'path' => 'Code/mapping.json.liquid',
-          'custom_name' => "#{file_name}.request.json",
-          'is_resource' => true
-      }
+      if include_request?
+          files << {
+              'name' => 'Mapping.request.json',
+              'path' => 'Code/mapping.json.liquid',
+              'custom_name' => "#{file_name}.request.json",
+              'is_resource' => true
+          }
+      end
       files << {
           'name' => 'Mapping.response.json',
           'path' => 'Code/mapping.json.liquid',
@@ -130,8 +126,11 @@ module Generate
       generate_properties_parsing
       params = {
           class_name: class_name,
-          mapping_tag: "{#{options[:name].downcase}}"
+          mapping_tag: "{#{options[:name].underscore.gsub('_', '-')}}"
       }
+      if include_request?
+          params[:include_request] = true
+      end
       params
     end
 
